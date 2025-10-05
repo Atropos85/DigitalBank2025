@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Negocio.Interfaces.Personas;
 using Negocio.Services.Personas;
 
@@ -11,6 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddScoped<IPersonasService, PersonasService>();
 builder.Services.AddScoped<IPersonasRepository, PersonasRepository>();

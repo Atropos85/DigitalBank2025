@@ -1,5 +1,7 @@
-﻿using Negocio.DTO.Personas;
+﻿using Datos.Models.Personas;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Negocio.DTO.Personas;
 using Negocio.Interfaces.Personas;
 
 namespace Presentacion.Controllers
@@ -18,46 +20,98 @@ namespace Presentacion.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonasListaDTO>>> Get()
         {
-            var lista = await _persona.ListarPersonaAsync();
-            return lista;
+            try
+            {
+                var lista = await _persona.ListarPersonaAsync();
+                return lista;
+            }
+            catch (DomainValidationException ex)
+            {
+                return StatusCode(ex.StatusCode, new
+                {
+                    Message = ex.Message,
+                    Errors = ex.Errors
+                });
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<PersonasListaDTO>>> Get(int id)
         {
+            try
+            {
             var detalle =await _persona.ListarPersonaAsync(id);
             return detalle;
+            }
+            catch (DomainValidationException ex)
+            {
+                return StatusCode(ex.StatusCode, new
+                {
+                    Message = ex.Message,
+                    Errors = ex.Errors
+                });
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PersonasDTO persona)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var creada = await _persona.CrearPersonaAsync(persona);
-
-            return CreatedAtAction(nameof(Get), new { id = creada.IdPersona }, creada);
+            try
+            {
+                var creada = await _persona.CrearPersonaAsync(persona);
+                return CreatedAtAction(nameof(Get), new { id = creada.IdPersona }, creada);
+            }
+            catch (DomainValidationException ex)
+            {
+                return StatusCode(ex.StatusCode, new
+                {
+                    Message = ex.Message,
+                    Errors = ex.Errors
+                });
+            }
         }
+
+   
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] PersonasDTO persona)
         {
-            var actualizada =await _persona.ActualizaPersonaAsync(persona);
-            if (actualizada == null)
-                return NotFound();
-
-            return NoContent();
+            try
+            {
+                var actualizada =await _persona.ActualizaPersonaAsync(persona);
+                if (actualizada == null)
+                    return NotFound();
+                return NoContent();
+            }
+            catch (DomainValidationException ex)
+            {
+                return StatusCode(ex.StatusCode, new
+                {
+                    Message = ex.Message,
+                    Errors = ex.Errors
+                });
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var eliminada =await _persona.EliminarPersonaAsync(id);
-            if (eliminada == null)
-                return NotFound();
+            try
+            { 
+                var eliminada =await _persona.EliminarPersonaAsync(id);
+                if (eliminada == null)
+                    return NotFound();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (DomainValidationException ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message,
+                    Errors = ex.Errors
+                });
+            }
         }
     }
 }

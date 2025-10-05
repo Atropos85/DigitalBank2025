@@ -3,6 +3,19 @@
 @{
     Layout = "_Layout";
 }
+@{
+    string alertClass = "alert-success";
+    if (TempData["Estado"] == "error")
+    {
+        alertClass = "alert-danger";
+    }
+}
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert @alertClass">
+        @TempData["Mensaje"]
+    </div>
+}
 
 @{
     ViewData["Title"] = "Index";
@@ -31,16 +44,19 @@
                 <div class="form-group">
                     @Html.LabelFor(m => Model.Nombre, "Nombre Persona")
                     @Html.TextBoxFor(m => Model.Nombre, new { })
+                    @Html.ValidationMessageFor(m => Model.Nombre)
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => Model.FechaNacimiento, "Fecha de Nacimiento")
                     @Html.TextBoxFor(m => Model.FechaNacimiento, new { @class = " datepicker" })
+                    @Html.ValidationMessageFor(m => Model.FechaNacimiento)
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => Model.FechaNacimiento, "Sexo")
                     @Html.DropDownListFor(m => Model.Sexo,
                                     new SelectList((IEnumerable<dynamic>)ViewBag.Sexos, "Valor", "Descripcion"),
                                     "Seleccione...", new {  })
+                    @Html.ValidationMessageFor(m => Model.Sexo)
                 </div>
             </div>
 

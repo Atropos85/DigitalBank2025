@@ -5,6 +5,20 @@
     ViewData["Title"] = "Index";
 }
 
+@{
+    string alertClass = "alert-success";
+    if (TempData["Estado"] == "error")
+    {
+        alertClass = "alert-danger";
+    }
+}
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert @alertClass">
+        @TempData["Mensaje"]
+    </div>
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,12 +28,6 @@
 </head>
 
 <body>
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
-        </div>
-    }
     <fieldset>
         <legend>Listado Personas</legend>
 
