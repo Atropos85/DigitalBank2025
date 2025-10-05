@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "_Layout";
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Personas - DIGITALBANK</title>
+
+</head>
+
+<body>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    <fieldset>
+        <legend>Listado Personas</legend>
+
+        <p>
+            <button type="button" id="btnAgregar" class="btn btn-success" onclick="location.href='@Url.Action("CreatePersona")'">
+                <i class="bi bi-plus"></i> Agregar Persona
+            </button>
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Sexo</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Persona in Model)
+                {
+                    <tr>
+                        <td>@Persona.Nombre</td>
+                        <td>@Persona.FechaNacimiento</td>
+                        <td>@Persona.Sexo</td>
+                        <td>
+                            <button class="btnEditar" onclick="location.href='@Url.Action("CreatePersona", "Personas", new { id = Persona.IdPersona })'">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <form method="post" action="@Url.Action("DeletePersona", "Personas")">
+                                <input type="hidden" name="id" value="@Persona.IdPersona" />
+                                <button type="submit" class="btnRemove" onclick="return confirm('¿Está seguro de eliminar esta persona?');">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+
+</body>
+</html>
