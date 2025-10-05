@@ -13,9 +13,6 @@ namespace Datos.Utils
         private static readonly string _connectionString =
             "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DigitalBank;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
-        /// <summary>
-        /// Ejecuta un SP que no devuelve resultados (INSERT, UPDATE, DELETE)
-        /// </summary>
         public static async Task<int> ExecuteNonQueryAsync(string spName, Dictionary<string, object>? parameters = null)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -34,9 +31,6 @@ namespace Datos.Utils
             }
         }
 
-        /// <summary>
-        /// Ejecuta un SP que devuelve un DataTable (para SELECT con varias filas/columnas)
-        /// </summary>
         public static async Task<DataTable> ExecuteQueryAsync(string spName, Dictionary<string, object>? parameters = null)
         {
             using (SqlConnection conn = new SqlConnection(_connectionString))

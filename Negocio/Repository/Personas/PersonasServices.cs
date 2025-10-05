@@ -31,10 +31,10 @@ namespace Negocio.Services.Personas
             return _mapper.Map<PersonasDTO>(result);
         }
 
-        public async Task<List<PersonasDTO>> ListarPersonaAsync(int? Id = null)
+        public async Task<List<PersonasListaDTO>> ListarPersonaAsync(int? Id = null)
         {
             var result = await _repositoryPersonas.IListarPersonaAsync(Id);
-            return _mapper.Map<List<PersonasDTO>>(result);
+            return _mapper.Map<List<PersonasListaDTO>>(result);
         }
 
         public async Task<PersonasDTO> EliminarPersonaAsync(int Id)

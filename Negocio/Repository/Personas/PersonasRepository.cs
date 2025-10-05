@@ -17,7 +17,7 @@ namespace Negocio.Services.Personas
             };
 
             await DbHelper.ExecuteNonQueryAsync("sp_AdminPersona", parametros);
-            return persona; // o mapear si el SP devuelve el nuevo ID
+            return persona;
         }
         public async Task<PersonasEntity> IActualizaPersonaAsync(PersonasEntity persona)
         {
@@ -30,7 +30,7 @@ namespace Negocio.Services.Personas
             };
 
             await DbHelper.ExecuteNonQueryAsync("sp_AdminPersona", parametros);
-            return persona; // o mapear si el SP devuelve el nuevo ID
+            return persona;
         }
 
         public async Task<List<PersonasEntity>> IListarPersonaAsync(int? id = null)
@@ -61,7 +61,6 @@ namespace Negocio.Services.Personas
 
             await DbHelper.ExecuteNonQueryAsync("sp_AdminPersona", parametros);
 
-            // Devolver un "placeholder" o null depende de tu necesidad
             return new PersonasEntity
             {
                 IdPersona = id,

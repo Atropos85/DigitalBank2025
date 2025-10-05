@@ -6,7 +6,7 @@ namespace Negocio.Interfaces.Personas
     {
         Task<PersonasDTO> CrearPersonaAsync(PersonasDTO persona);
         Task<PersonasDTO> ActualizaPersonaAsync(PersonasDTO persona);
-        Task<List<PersonasDTO>> ListarPersonaAsync(int? Id = null);
+        Task<List<PersonasListaDTO>> ListarPersonaAsync(int? Id = null);
         Task<PersonasDTO> EliminarPersonaAsync(int Id);
     }
 }

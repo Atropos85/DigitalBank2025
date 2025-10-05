@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Negocio.Interfaces.Personas;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Presentacion.Controllers
 {
     [Route("api/[controller]")]
@@ -16,23 +14,21 @@ namespace Presentacion.Controllers
         {
             _persona = persona;
         }
-        // GET: api/<PersonasController>
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonasDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<PersonasListaDTO>>> Get()
         {
             var lista = await _persona.ListarPersonaAsync();
             return lista;
         }
 
-        // GET api/<PersonasController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<PersonasDTO>>> Get(int id)
+        public async Task<ActionResult<IEnumerable<PersonasListaDTO>>> Get(int id)
         {
             var detalle =await _persona.ListarPersonaAsync(id);
             return detalle;
         }
 
-        // POST api/<PersonasController>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PersonasDTO persona)
         {
@@ -41,11 +37,9 @@ namespace Presentacion.Controllers
 
             var creada = await _persona.CrearPersonaAsync(persona);
 
-            // devuelve la ruta del nuevo recurso creado
             return CreatedAtAction(nameof(Get), new { id = creada.IdPersona }, creada);
         }
 
-        // PUT api/<PersonasController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] PersonasDTO persona)
         {
@@ -53,11 +47,9 @@ namespace Presentacion.Controllers
             if (actualizada == null)
                 return NotFound();
 
-            return NoContent(); // 204
+            return NoContent();
         }
 
-
-        // DELETE api/<PersonasController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

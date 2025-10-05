@@ -24,7 +24,7 @@ legend {
 
 /* ==== Labels y inputs ==== */
 label {
-    display: inline-block;
+    display: block;
     width: 200px;
     font-weight: bold;
 }
@@ -32,9 +32,11 @@ label {
 input[type="text"],
 input[type="number"],
 input[type="datetime"],
+input[type="date"],
 select {
     padding: 5px;
     width: 250px;
+    height: 36px;
     border: 1px solid #ccc;
     border-radius: 3px;
     margin-bottom: 10px;

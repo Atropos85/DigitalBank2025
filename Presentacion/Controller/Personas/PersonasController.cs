@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static Negocio.Enumerable.Personas.Enumerables;
 
 namespace Presentacion.Controllers.Personas
 {
@@ -16,14 +17,12 @@ namespace Presentacion.Controllers.Personas
         {
             _httpClient = httpClientFactory.CreateClient("PersonasApi");
 
-            // Configurar opciones JSON para compatibilidad con la API
             _jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
         }
 
-        // 🔹 Listar personas
         public async Task<IActionResult> Index()
         {
             var response = await _httpClient.GetAsync("api/personas");
@@ -32,16 +31,16 @@ namespace Presentacion.Controllers.Personas
                 return View("Error", $"Error al obtener personas: {response.StatusCode}");
 
             var json = await response.Content.ReadAsStringAsync();
-            var personas = JsonSerializer.Deserialize<List<PersonasDTO>>(json, _jsonOptions);
+            var personas = JsonSerializer.Deserialize<List<PersonasListaDTO>>(json, _jsonOptions);
 
             return View(personas);
         }
 
-        // 🔹 Vista para crear
         [HttpGet]
         public async Task<IActionResult> CreatePersona(int? id)
         {
             PersonasDTO model;
+            ViewBag.Sexos = SexoEnum.Sexos; // lista enumerable
 
             if (id.HasValue)
             {
@@ -57,7 +56,6 @@ namespace Presentacion.Controllers.Personas
             }
             else
             {
-                // Nuevo registro
                 model = new PersonasDTO();
                 return View(model);
             }            
@@ -89,7 +87,6 @@ namespace Presentacion.Controllers.Personas
             return RedirectToAction(nameof(Index));
         }
 
-        // 🔹 Eliminar persona
         [HttpPost]
         public async Task<IActionResult> DeletePersona(int id)
         {
